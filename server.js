@@ -62,7 +62,8 @@ app.get('/items',(req,res)=>{
 	
 	var cursor = itemsDB.collection('items').find();
 	cursor.toArray(function(err,results){
-		res.json(results);
+		var parentObj = {"items":results}
+		res.json(parentObj);
 	});
 	
 })
