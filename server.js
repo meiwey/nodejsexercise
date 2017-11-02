@@ -4,6 +4,7 @@
 var express    = require('express');    
 var app        = express();                 
 var bodyParser = require('body-parser');
+var paginate = require('paginate-array');
 
 var port = process.env.PORT || 8080;   
 
@@ -60,10 +61,16 @@ app.post('/items',(req,res)=>{
 // GET API
 app.get('/items',(req,res)=>{
 	
+	var pageNumber = 1;
+	var numItemsPerPage = 30;
 	var cursor = itemsDB.collection('items').find();
 	cursor.toArray(function(err,results){
+		const paginateCollection = paginate(results,pageNumber, numItemsPerPage);
+		/*
 		var parentObj = {"items":results}
 		res.json(parentObj);
+		*/
+		res.json(paginateCollection);
 	});
 	
 })
